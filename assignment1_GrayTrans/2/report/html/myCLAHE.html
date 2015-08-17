@@ -1,0 +1,242 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>myCLAHE</title><meta name="generator" content="MATLAB 8.4"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-08-16"><meta name="DC.source" content="myCLAHE.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><pre class="codeinput"><span class="keyword">function</span> output = myCLAHE( img, N, t )
+<span class="comment">%UNTITLED2 Summary of this function goes here</span>
+<span class="comment">%   Detailed explanation goes here</span>
+r = size(img, 1);
+c = size(img, 2);
+channels = size(img, 3);
+img = double(img);
+output = double(zeros(r, c, channels));
+cast(output, <span class="string">'like'</span>, img);
+<span class="keyword">for</span> ch = 1:channels
+    <span class="keyword">for</span> i = 1:r
+        freq = double(zeros(256));
+        prevleftcol = 1;
+        prevrightcol = 1;
+        total = 0;
+        <span class="keyword">for</span> j = 1:c
+
+            a = floor(N/2);
+            b = floor((N+1)/2);
+            leftcol = max(1, (j-b+1));
+            rightcol = min(c, (j+a));
+            top = max(1, (i-b+1));
+            bottom = min(r, (i+a));
+
+            <span class="keyword">if</span> j==1
+                <span class="keyword">for</span> ii = top:bottom
+                    <span class="keyword">for</span> jj = leftcol:rightcol
+                        freq(img(ii, jj, ch) + 1) = freq(img(ii, jj, ch) + 1) + 1;
+                        total = total + 1;
+                    <span class="keyword">end</span>;
+                <span class="keyword">end</span>;
+            <span class="keyword">else</span>
+                <span class="keyword">if</span>(leftcol &gt; prevleftcol)
+                    <span class="keyword">for</span> temprow = top:bottom
+                        freq(img(temprow, prevleftcol, ch) + 1) = freq(img(temprow, prevleftcol, ch) + 1) - 1;
+                        total = total - 1;
+                    <span class="keyword">end</span>;
+                <span class="keyword">end</span>;
+                <span class="keyword">if</span>(rightcol &gt; prevrightcol)
+                    <span class="keyword">for</span> temprow = top:bottom
+                        freq(img(temprow, rightcol, ch) + 1) = freq(img(temprow, rightcol, ch) + 1) + 1;
+                        total = total + 1;
+                    <span class="keyword">end</span>;
+                <span class="keyword">end</span>;
+            <span class="keyword">end</span>;
+            prevleftcol = leftcol;
+            prevrightcol = rightcol;
+            prev = 0;
+            cumfreq = zeros(256);
+            extra = 0;
+            thres = t*total;
+            <span class="comment">%disp(total);</span>
+            <span class="keyword">for</span> iter = 1:256
+                <span class="keyword">if</span>(freq(iter) &gt; thres)
+                    extra = extra + freq(iter) - thres;
+                    freq(iter) = thres;
+                <span class="keyword">end</span>;
+            <span class="keyword">end</span>;
+            <span class="keyword">for</span> iter = 1:256
+                freq(iter) = freq(iter) + extra/256.0;
+            <span class="keyword">end</span>;
+
+            <span class="keyword">for</span> iter = 1:256
+                cumfreq(iter) = prev + freq(iter);
+                prev = cumfreq(iter);
+            <span class="keyword">end</span>;
+
+            <span class="comment">%disp(freq(255));</span>
+            <span class="comment">%disp(total);</span>
+            output(i, j, ch) = (cumfreq(img(i,j,ch)+1)*255.0)/total;
+        <span class="keyword">end</span>;
+    <span class="keyword">end</span>;
+<span class="keyword">end</span>;
+
+
+<span class="comment">%output = uint8(output);</span>
+output = output/255.0;
+<span class="comment">%disp(output);</span>
+
+
+
+
+<span class="keyword">end</span>
+</pre><pre class="codeoutput error">Error using myCLAHE (line 4)
+Not enough input arguments.
+</pre><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2014b</a><br></p></div><!--
+##### SOURCE BEGIN #####
+function output = myCLAHE( img, N, t )
+%UNTITLED2 Summary of this function goes here
+%   Detailed explanation goes here
+r = size(img, 1);
+c = size(img, 2);
+channels = size(img, 3);
+img = double(img);
+output = double(zeros(r, c, channels));
+cast(output, 'like', img);
+for ch = 1:channels
+    for i = 1:r
+        freq = double(zeros(256));
+        prevleftcol = 1;
+        prevrightcol = 1;
+        total = 0;
+        for j = 1:c
+            
+            a = floor(N/2);
+            b = floor((N+1)/2);
+            leftcol = max(1, (j-b+1));
+            rightcol = min(c, (j+a));
+            top = max(1, (i-b+1));
+            bottom = min(r, (i+a));
+            
+            if j==1
+                for ii = top:bottom
+                    for jj = leftcol:rightcol
+                        freq(img(ii, jj, ch) + 1) = freq(img(ii, jj, ch) + 1) + 1;
+                        total = total + 1;
+                    end;
+                end;
+            else
+                if(leftcol > prevleftcol)
+                    for temprow = top:bottom
+                        freq(img(temprow, prevleftcol, ch) + 1) = freq(img(temprow, prevleftcol, ch) + 1) - 1;
+                        total = total - 1;
+                    end;
+                end;
+                if(rightcol > prevrightcol)
+                    for temprow = top:bottom
+                        freq(img(temprow, rightcol, ch) + 1) = freq(img(temprow, rightcol, ch) + 1) + 1;
+                        total = total + 1;
+                    end;
+                end;
+            end;
+            prevleftcol = leftcol;
+            prevrightcol = rightcol;
+            prev = 0;
+            cumfreq = zeros(256);
+            extra = 0;
+            thres = t*total;
+            %disp(total);
+            for iter = 1:256
+                if(freq(iter) > thres)
+                    extra = extra + freq(iter) - thres;
+                    freq(iter) = thres;
+                end;
+            end;
+            for iter = 1:256
+                freq(iter) = freq(iter) + extra/256.0;
+            end;
+            
+            for iter = 1:256
+                cumfreq(iter) = prev + freq(iter);
+                prev = cumfreq(iter);
+            end;
+            
+            %disp(freq(255));
+            %disp(total);
+            output(i, j, ch) = (cumfreq(img(i,j,ch)+1)*255.0)/total;
+        end;
+    end;
+end;
+
+
+%output = uint8(output);
+output = output/255.0;
+%disp(output);
+                
+            
+            
+
+end
+
+
+##### SOURCE END #####
+--></body></html>

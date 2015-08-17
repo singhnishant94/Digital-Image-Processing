@@ -1,0 +1,302 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>myMainScript</title><meta name="generator" content="MATLAB 8.4"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-08-16"><meta name="DC.source" content="myMainScript.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h2>Contents</h2><div><ul><li><a href="#1">MyMainScript</a></li><li><a href="#2">Your code here</a></li><li><a href="#3">Linear contrast stretching</a></li><li><a href="#4">Histogram Equalization</a></li><li><a href="#5">Adaptive Histogram Equalization</a></li><li><a href="#6">Contrast Limited Adaptive Histogram Equalization</a></li></ul></div><h2>MyMainScript<a name="1"></a></h2><pre class="codeinput">tic;
+</pre><h2>Your code here<a name="2"></a></h2><pre class="codeinput">path1 = <span class="string">'../data/barbara.png'</span>;
+path2 = <span class="string">'../data/TEM.png'</span>;
+path3 = <span class="string">'../data/canyon.png'</span>;
+
+[img1, map1] = imread(path1);
+[img2, map2] = imread(path2);
+[img3, map3] = imread(path3);
+
+
+
+
+map3 = colormap(hsv(255));
+n1 = <span class="string">'barbara'</span>;
+n2 = <span class="string">'TEM'</span>;
+n3 = <span class="string">'canyon'</span>;
+
+figure(<span class="string">'Name'</span>, strcat(<span class="string">'original_'</span>,n1)), imshow(img1, map1), colorbar, truesize, axis <span class="string">on</span>;
+figure(<span class="string">'Name'</span>, strcat(<span class="string">'original_'</span>,n2)), imshow(img2, map2), colorbar, truesize, axis <span class="string">on</span>;
+figure(<span class="string">'Name'</span>, strcat(<span class="string">'original_'</span>,n3)), imshow(img3, map3), colorbar, truesize, axis <span class="string">on</span>;
+
+name = cell(3,1);
+name{1} = n1;
+name{2} = n2;
+name{3} = n3;
+
+path = cell(3,1);
+path{1} = path1;
+path{2} = path2;
+path{3} = path3;
+</pre><img vspace="5" hspace="5" src="myMainScript_01.png" alt=""> <img vspace="5" hspace="5" src="myMainScript_02.png" alt=""> <img vspace="5" hspace="5" src="myMainScript_03.png" alt=""> <img vspace="5" hspace="5" src="myMainScript_04.png" alt=""> <h2>Linear contrast stretching<a name="3"></a></h2><pre class="codeinput"><span class="keyword">for</span> i = 1:2
+    [img, map] = imread(path{i});
+    output = myLinearContrastStretching(img);
+    figure(<span class="string">'Name'</span>, strcat(<span class="string">'Q2_a_'</span>,name{i})), imshow(output, map), colorbar, truesize, axis <span class="string">on</span>;
+    savepath = strcat(<span class="string">'../images/'</span>,<span class="string">'Q2_a_'</span>,name{i},<span class="string">'.mat'</span>);
+    save(savepath, <span class="string">'output'</span>);
+<span class="keyword">end</span>;
+[img, map] = imread(path{3});
+output = myLinearContrastStretching(img);
+figure(<span class="string">'Name'</span>, strcat(<span class="string">'Q2_a_'</span>,name{3})), imshow(output, map3), colorbar, truesize, axis <span class="string">on</span>;
+savepath = strcat(<span class="string">'../images/'</span>,<span class="string">'Q2_a_'</span>,name{3},<span class="string">'.mat'</span>);
+save(savepath, <span class="string">'output'</span>);
+</pre><img vspace="5" hspace="5" src="myMainScript_05.png" alt=""> <img vspace="5" hspace="5" src="myMainScript_06.png" alt=""> <img vspace="5" hspace="5" src="myMainScript_07.png" alt=""> <h2>Histogram Equalization<a name="4"></a></h2><pre class="codeinput"><span class="keyword">for</span> i = 1:2
+    [img, map] = imread(path{i});
+    output = myHE(img);
+    figure(<span class="string">'Name'</span>, strcat(<span class="string">'Q2_b_'</span>,name{i})), imshow(output, map), colorbar, truesize, axis <span class="string">on</span>;
+    savepath = strcat(<span class="string">'../images/'</span>,<span class="string">'Q2_b_'</span>,name{i},<span class="string">'.mat'</span>);
+    save(savepath, <span class="string">'output'</span>);
+<span class="keyword">end</span>;
+[img, map] = imread(path{3});
+output = myHE(img);
+figure(<span class="string">'Name'</span>, strcat(<span class="string">'Q2_b_'</span>,name{3})), imshow(output, map3), colorbar, truesize, axis <span class="string">on</span>;
+savepath = strcat(<span class="string">'../images/'</span>,<span class="string">'Q2_b_'</span>,name{3},<span class="string">'.mat'</span>);
+save(savepath, <span class="string">'output'</span>);
+<span class="comment">%}</span>
+</pre><img vspace="5" hspace="5" src="myMainScript_08.png" alt=""> <img vspace="5" hspace="5" src="myMainScript_09.png" alt=""> <img vspace="5" hspace="5" src="myMainScript_10.png" alt=""> <h2>Adaptive Histogram Equalization<a name="5"></a></h2><pre class="codeinput">w_sizes = [64, 128, 256];
+disp(size(w_sizes));
+
+<span class="keyword">for</span> i = 1:2
+    <span class="keyword">for</span> w = 1:size(w_sizes, 2)
+        [img, map] = imread(path{i});
+        output = myAHE(img, w_sizes(1,w));
+        figure(<span class="string">'Name'</span>, strcat(<span class="string">'Q2_c_'</span>,name{i},<span class="string">'_w_size_'</span>,int2str(w_sizes(1,w)))), imshow(output, map), colorbar, truesize, axis <span class="string">on</span>;
+        savepath = strcat(<span class="string">'../images/'</span>,<span class="string">'Q2_c_'</span>,name{i},<span class="string">'_w_size_'</span>,int2str(w_sizes(1,w)),<span class="string">'.mat'</span>);
+        save(savepath, <span class="string">'output'</span>);
+    <span class="keyword">end</span>;
+<span class="keyword">end</span>;
+
+<span class="keyword">for</span> w = 1:size(w_sizes, 2)
+    [img, map] = imread(path{3});
+    output = myAHE(img, w_sizes(1,w));
+    figure(<span class="string">'Name'</span>, strcat(<span class="string">'Q2_c_'</span>,name{3},<span class="string">'_w_size_'</span>,int2str(w_sizes(1,w)))), imshow(output, map3), colorbar, truesize, axis <span class="string">on</span>;
+    savepath = strcat(<span class="string">'../images/'</span>,<span class="string">'Q2_c_'</span>,name{3},<span class="string">'_w_size_'</span>,int2str(w_sizes(1,w)),<span class="string">'.mat'</span>);
+    save(savepath, <span class="string">'output'</span>);
+<span class="keyword">end</span>;
+<span class="comment">%}</span>
+</pre><pre class="codeoutput">     1     3
+
+</pre><img vspace="5" hspace="5" src="myMainScript_11.png" alt=""> <img vspace="5" hspace="5" src="myMainScript_12.png" alt=""> <img vspace="5" hspace="5" src="myMainScript_13.png" alt=""> <img vspace="5" hspace="5" src="myMainScript_14.png" alt=""> <img vspace="5" hspace="5" src="myMainScript_15.png" alt=""> <img vspace="5" hspace="5" src="myMainScript_16.png" alt=""> <img vspace="5" hspace="5" src="myMainScript_17.png" alt=""> <img vspace="5" hspace="5" src="myMainScript_18.png" alt=""> <img vspace="5" hspace="5" src="myMainScript_19.png" alt=""> <h2>Contrast Limited Adaptive Histogram Equalization<a name="6"></a></h2><pre class="codeinput"><span class="comment">% window size = 200, threshold = 0.05</span>
+<span class="keyword">for</span> i = 1:2
+    [img, map] = imread(path{i});
+    output = myCLAHE(img, 200, 0.05);
+    figure(<span class="string">'Name'</span>, strcat(<span class="string">'Q2_d_'</span>,name{i},<span class="string">'_w_size_200_t_0.05'</span>)), imshow(output, map), colorbar, truesize, axis <span class="string">on</span>;
+    savepath = strcat(<span class="string">'../images/'</span>,<span class="string">'Q2_d_'</span>,name{i},<span class="string">'_w_size_200_t_0.05.mat'</span>);
+    save(savepath, <span class="string">'output'</span>);
+<span class="keyword">end</span>;
+[img, map] = imread(path{3});
+output = myCLAHE(img, 200, 0.05);
+figure(<span class="string">'Name'</span>, strcat(<span class="string">'Q2_d_'</span>,name{3},<span class="string">'_w_size_200_t_0.05'</span>)), imshow(output, map3), colorbar, truesize, axis <span class="string">on</span>;
+savepath = strcat(<span class="string">'../images/'</span>,<span class="string">'Q2_d_'</span>,name{3},<span class="string">'_w_size_200_t_0.05.mat'</span>);
+save(savepath, <span class="string">'output'</span>);
+
+<span class="comment">% window size = 200, threshold = 0.025</span>
+<span class="keyword">for</span> i = 1:2
+    [img, map] = imread(path{i});
+    output = myCLAHE(img, 200, 0.025);
+    figure(<span class="string">'Name'</span>, strcat(<span class="string">'Q2_d_'</span>,name{i},<span class="string">'_w_size_200_t_0.025'</span>)), imshow(output, map), colorbar, truesize, axis <span class="string">on</span>;
+    savepath = strcat(<span class="string">'../images/'</span>,<span class="string">'Q2_d_'</span>,name{i},<span class="string">'_w_size_200_t_0.025.mat'</span>);
+    save(savepath, <span class="string">'output'</span>);
+<span class="keyword">end</span>;
+[img, map] = imread(path{3});
+output = myCLAHE(img, 200, 0.025);
+figure(<span class="string">'Name'</span>, strcat(<span class="string">'Q2_d_'</span>,name{3},<span class="string">'_w_size_200_t_0.025'</span>)), imshow(output, map3), colorbar, truesize, axis <span class="string">on</span>;
+savepath = strcat(<span class="string">'../images/'</span>,<span class="string">'Q2_d_'</span>,name{3},<span class="string">'_w_size_200_t_0.025.mat'</span>);
+save(savepath, <span class="string">'output'</span>);
+
+toc;
+</pre><pre class="codeoutput">Elapsed time is 406.290221 seconds.
+</pre><img vspace="5" hspace="5" src="myMainScript_20.png" alt=""> <img vspace="5" hspace="5" src="myMainScript_21.png" alt=""> <img vspace="5" hspace="5" src="myMainScript_22.png" alt=""> <img vspace="5" hspace="5" src="myMainScript_23.png" alt=""> <img vspace="5" hspace="5" src="myMainScript_24.png" alt=""> <img vspace="5" hspace="5" src="myMainScript_25.png" alt=""> <p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2014b</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% MyMainScript
+
+tic;
+%% Your code here
+
+path1 = '../data/barbara.png';
+path2 = '../data/TEM.png';
+path3 = '../data/canyon.png';
+
+[img1, map1] = imread(path1);
+[img2, map2] = imread(path2);
+[img3, map3] = imread(path3);
+
+
+
+
+map3 = colormap(hsv(255));
+n1 = 'barbara';
+n2 = 'TEM';
+n3 = 'canyon';
+
+figure('Name', strcat('original_',n1)), imshow(img1, map1), colorbar, truesize, axis on;
+figure('Name', strcat('original_',n2)), imshow(img2, map2), colorbar, truesize, axis on;
+figure('Name', strcat('original_',n3)), imshow(img3, map3), colorbar, truesize, axis on;
+
+name = cell(3,1);
+name{1} = n1;
+name{2} = n2;
+name{3} = n3;
+
+path = cell(3,1);
+path{1} = path1;
+path{2} = path2;
+path{3} = path3;
+
+
+
+%% Linear contrast stretching
+for i = 1:2
+    [img, map] = imread(path{i});
+    output = myLinearContrastStretching(img);
+    figure('Name', strcat('Q2_a_',name{i})), imshow(output, map), colorbar, truesize, axis on;
+    savepath = strcat('../images/','Q2_a_',name{i},'.mat');
+    save(savepath, 'output');
+end;
+[img, map] = imread(path{3});
+output = myLinearContrastStretching(img);
+figure('Name', strcat('Q2_a_',name{3})), imshow(output, map3), colorbar, truesize, axis on;
+savepath = strcat('../images/','Q2_a_',name{3},'.mat');
+save(savepath, 'output');
+
+%% Histogram Equalization
+for i = 1:2
+    [img, map] = imread(path{i});
+    output = myHE(img);
+    figure('Name', strcat('Q2_b_',name{i})), imshow(output, map), colorbar, truesize, axis on;
+    savepath = strcat('../images/','Q2_b_',name{i},'.mat');
+    save(savepath, 'output');
+end;
+[img, map] = imread(path{3});
+output = myHE(img);
+figure('Name', strcat('Q2_b_',name{3})), imshow(output, map3), colorbar, truesize, axis on;
+savepath = strcat('../images/','Q2_b_',name{3},'.mat');
+save(savepath, 'output');
+%}
+
+%% Adaptive Histogram Equalization
+
+w_sizes = [64, 128, 256];
+disp(size(w_sizes));
+
+for i = 1:2
+    for w = 1:size(w_sizes, 2)
+        [img, map] = imread(path{i});
+        output = myAHE(img, w_sizes(1,w));
+        figure('Name', strcat('Q2_c_',name{i},'_w_size_',int2str(w_sizes(1,w)))), imshow(output, map), colorbar, truesize, axis on;
+        savepath = strcat('../images/','Q2_c_',name{i},'_w_size_',int2str(w_sizes(1,w)),'.mat');
+        save(savepath, 'output');
+    end;
+end;
+
+for w = 1:size(w_sizes, 2)
+    [img, map] = imread(path{3});
+    output = myAHE(img, w_sizes(1,w));
+    figure('Name', strcat('Q2_c_',name{3},'_w_size_',int2str(w_sizes(1,w)))), imshow(output, map3), colorbar, truesize, axis on;
+    savepath = strcat('../images/','Q2_c_',name{3},'_w_size_',int2str(w_sizes(1,w)),'.mat');
+    save(savepath, 'output');
+end;
+%}
+
+%% Contrast Limited Adaptive Histogram Equalization
+
+% window size = 200, threshold = 0.05
+for i = 1:2
+    [img, map] = imread(path{i});
+    output = myCLAHE(img, 200, 0.05);
+    figure('Name', strcat('Q2_d_',name{i},'_w_size_200_t_0.05')), imshow(output, map), colorbar, truesize, axis on;
+    savepath = strcat('../images/','Q2_d_',name{i},'_w_size_200_t_0.05.mat');
+    save(savepath, 'output');
+end;
+[img, map] = imread(path{3});
+output = myCLAHE(img, 200, 0.05);
+figure('Name', strcat('Q2_d_',name{3},'_w_size_200_t_0.05')), imshow(output, map3), colorbar, truesize, axis on;
+savepath = strcat('../images/','Q2_d_',name{3},'_w_size_200_t_0.05.mat');
+save(savepath, 'output');
+
+% window size = 200, threshold = 0.025
+for i = 1:2
+    [img, map] = imread(path{i}); 
+    output = myCLAHE(img, 200, 0.025);
+    figure('Name', strcat('Q2_d_',name{i},'_w_size_200_t_0.025')), imshow(output, map), colorbar, truesize, axis on;
+    savepath = strcat('../images/','Q2_d_',name{i},'_w_size_200_t_0.025.mat');
+    save(savepath, 'output');
+end;
+[img, map] = imread(path{3}); 
+output = myCLAHE(img, 200, 0.025);
+figure('Name', strcat('Q2_d_',name{3},'_w_size_200_t_0.025')), imshow(output, map3), colorbar, truesize, axis on;
+savepath = strcat('../images/','Q2_d_',name{3},'_w_size_200_t_0.025.mat');
+save(savepath, 'output');
+
+toc;
+
+##### SOURCE END #####
+--></body></html>
