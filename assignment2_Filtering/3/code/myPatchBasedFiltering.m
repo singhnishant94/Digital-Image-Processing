@@ -1,4 +1,4 @@
-function output = myPatchBasedFiltering( img, sigma_patch, sigma )
+function output = myPatchBasedFiltering( img, sigma_patch)
 %UNTITLED Summary of this function goes here
 %   Detailed explanation goes here
 patch_size = 9;
@@ -8,6 +8,7 @@ w_w = floor(window_size/2);
 rows = size(img, 1);
 columns = size(img, 2);
 output = double(zeros(size(img)));
+iso = fspecial('gaussian', [patch_size patch_size], 1);
 
 for i = 1:rows
     for j = 1:columns
@@ -44,6 +45,13 @@ for i = 1:rows
                 pp_down_f = i + wid_down;
                 pp_left_f = j - wid_left;
                 pp_right_f = j + wid_right;
+                
+                iso_up = floor(patch_size/2) + 1 - wid_up;
+                iso_down = floor(patch_size/2) + 1 + wid_down;
+                iso_left = floor(patch_size/2) + 1 - wid_left;
+                iso_right = floor(patch_size/2) + 1 + wid_right;
+                
+                
                 %{
                 disp(pp_up_f);
                 disp(pp_down_f);
@@ -51,8 +59,16 @@ for i = 1:rows
                 disp(pp_right_f);
                 disp('yes');
                 %}
+                
+                
                 patch_p = img([pp_up_f:pp_down_f], [pp_left_f:pp_right_f]);
                 patch_q = img([p_up_f:p_down_f], [p_left_f:p_right_f]);
+                
+                
+                iso_cur = iso([iso_up:iso_down], [iso_left:iso_right]);
+                patch_p = patch_p.*iso_cur; % isotropising
+                patch_q = patch_q.*iso_cur; % isotropising
+                
                 patch_diff = patch_q - patch_p;
                 patch_diff = patch_diff.^2;
                 norm = sum(sum(patch_diff));
