@@ -1,0 +1,339 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>myMainScript</title><meta name="generator" content="MATLAB 8.4"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-09-20"><meta name="DC.source" content="myMainScript.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h2>Contents</h2><div><ul><li><a href="#1">MyMainScript</a></li><li><a href="#2">Your code here</a></li></ul></div><h2>MyMainScript<a name="1"></a></h2><pre class="codeinput">tic;
+</pre><h2>Your code here<a name="2"></a></h2><pre class="codeinput">x = load(<span class="string">'../data/boat.mat'</span>);
+
+img = x.imageOrig;
+n_img = img/255;
+figure, imshow(n_img), title(<span class="string">'original image'</span>);
+noisy = imnoise(n_img, <span class="string">'gaussian'</span>, 0, 0.01);
+noisy = noisy*255;
+figure, imshow(uint8(noisy)), title(<span class="string">'noisy image'</span>);
+minrmsd = 10000;
+mind0 = 50;
+<span class="comment">%{
+</span><span class="comment">for i = 50:120
+</span><span class="comment">    [bw_filter, temp] = myButterworthFiltering(noisy, i, 2);
+</span><span class="comment">    rmsd = sum(sum((temp - img).^2));
+</span><span class="comment">    rmsd = rmsd/(size(img,1)*size(img,2));
+</span><span class="comment">    rmsd = sqrt(rmsd);
+</span><span class="comment">    if(rmsd &lt; minrmsd)
+</span><span class="comment">        minrmsd = rmsd;
+</span><span class="comment">        mind0 = i;
+</span><span class="comment">        output = temp;
+</span><span class="comment">    end;
+</span><span class="comment">end;
+</span><span class="comment">disp(['minimum d0 =' num2str(mind0)]);
+</span><span class="comment">disp(['minimum rmsd =' num2str(minrmsd)]);
+</span><span class="comment">%}
+</span>
+
+<span class="comment">% optimal d0 = 100</span>
+[bw_filter, output] = myButterworthFiltering(noisy, 100, 2);
+
+figure, imshow(imadjust(bw_filter)), title(<span class="string">'butterworth filter'</span>);
+<span class="comment">%disp(rmsd);</span>
+figure, imshow(uint8(output)), title(<span class="string">'filtered image'</span>);
+
+rmsd = sum(sum((output - img).^2));
+rmsd = rmsd/(size(img,1)*size(img,2));
+rmsd = sqrt(rmsd);
+
+<span class="comment">%optimal rmsd</span>
+disp(<span class="string">'optimal d0: 100'</span>);
+disp([<span class="string">'optimal rmsd: '</span> num2str(rmsd)]);
+
+[bw, out] = myButterworthFiltering(noisy, 95, 2);
+rmsd = sum(sum((out - img).^2));
+rmsd = rmsd/(size(img,1)*size(img,2));
+rmsd = sqrt(rmsd);
+
+<span class="comment">%optimal rmsd</span>
+
+disp([<span class="string">'0.95*d0 rmsd: '</span> num2str(rmsd)]);
+
+[bw, out] = myButterworthFiltering(noisy, 105, 2);
+rmsd = sum(sum((out - img).^2));
+rmsd = rmsd/(size(img,1)*size(img,2));
+rmsd = sqrt(rmsd);
+
+<span class="comment">%optimal rmsd</span>
+
+disp([<span class="string">'1.05*d0 rmsd: '</span> num2str(rmsd)]);
+
+
+ft = fft2(img);
+ft = fftshift(ft);
+
+r = size(ft, 1);
+c = size(ft, 2);
+<span class="comment">%{
+</span><span class="comment">logft = log(ft);
+</span><span class="comment">figure, imshow(abs(logft), [min(min(abs(logft))) max(max(abs(logft)))]), title('fourier transform of the image');
+</span><span class="comment">%}
+</span>dc = ft(r/2, c/2);
+disp([<span class="string">'dc offset: '</span> num2str(abs(dc))]);
+energy = sum(sum(abs(ft).^2));
+disp([<span class="string">'total energy of ft: '</span> num2str(energy)]);
+
+<span class="comment">%{
+</span><span class="comment">radius 1.4 - 90.5633 (88)
+</span><span class="comment">radius 2.2 - 90.6931 (91)
+</span><span class="comment">radius 2.3 - 92.6178 (92)
+</span><span class="comment">radius 4.4 - 93.9973 (94)
+</span><span class="comment">radius 14 - 96.9826 (97)
+</span><span class="comment">radius 59 - 99.0074 (99)
+</span><span class="comment">%}
+</span>
+radii = [1.4 2.2 2.3 4.4 14 59];
+<span class="keyword">for</span> i=1:6
+    R = radii(i);
+    filtered = zeros(size(ft));
+    <span class="keyword">for</span> a=1:r
+        <span class="keyword">for</span> b=1:c
+            dist = sqrt((a-r/2)^2 + (b-c/2)^2);
+            <span class="keyword">if</span>(dist &lt; R)
+                filtered(a,b) = ft(a,b);
+            <span class="keyword">end</span>;
+        <span class="keyword">end</span>;
+    <span class="keyword">end</span>;
+    filtered = ifftshift(filtered);
+    inv = ifft2(filtered);
+    inv = abs(inv);
+    diff = (inv - img).^2;
+    s = sum(sum(diff));
+    rmsd = sqrt(s/(size(inv,1)*size(inv,2)));
+    disp([<span class="string">'for radius: '</span> num2str(R) <span class="string">' rmsd = '</span> num2str(rmsd)]);
+<span class="keyword">end</span>;
+<span class="comment">%{
+</span><span class="comment">for R = 50:70
+</span><span class="comment">    tmpenergy = 0;
+</span><span class="comment">    for i=1:r
+</span><span class="comment">        for j=1:c
+</span><span class="comment">            dist = sqrt((i-r/2)^2 + (j-c/2)^2);
+</span><span class="comment">
+</span><span class="comment">            if(dist &lt; R)
+</span><span class="comment">                tmpenergy = tmpenergy + abs(ft(i,j))^2;
+</span><span class="comment">            end;
+</span><span class="comment">        end;
+</span><span class="comment">    end;
+</span><span class="comment">    perc = (tmpenergy/energy)*100;
+</span><span class="comment">    disp(['for radius: ' num2str(R) ' energy = ' num2str(perc) '%']);
+</span><span class="comment">end;
+</span><span class="comment">%}
+</span><span class="comment">%disp(output);</span>
+
+
+toc;
+</pre><pre class="codeoutput">optimal d0: 100
+optimal rmsd: 11.2277
+0.95*d0 rmsd: 11.2479
+1.05*d0 rmsd: 11.2486
+dc offset: 873514.5
+total energy of ft: 1305866821173248
+for radius: 1.4 rmsd = 123.052
+for radius: 2.2 rmsd = 39.7017
+for radius: 2.3 rmsd = 36.2455
+for radius: 4.4 rmsd = 32.9541
+for radius: 14 rmsd = 23.6251
+for radius: 59 rmsd = 13.6693
+Elapsed time is 6.746477 seconds.
+</pre><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2014b</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% MyMainScript
+
+tic;
+%% Your code here
+x = load('../data/boat.mat');
+
+img = x.imageOrig;
+n_img = img/255;
+figure, imshow(n_img), title('original image');
+noisy = imnoise(n_img, 'gaussian', 0, 0.01);
+noisy = noisy*255;
+figure, imshow(uint8(noisy)), title('noisy image');
+minrmsd = 10000;
+mind0 = 50;
+%{
+for i = 50:120
+    [bw_filter, temp] = myButterworthFiltering(noisy, i, 2);
+    rmsd = sum(sum((temp - img).^2));
+    rmsd = rmsd/(size(img,1)*size(img,2));
+    rmsd = sqrt(rmsd);
+    if(rmsd < minrmsd) 
+        minrmsd = rmsd;
+        mind0 = i;
+        output = temp;
+    end;
+end;
+disp(['minimum d0 =' num2str(mind0)]);
+disp(['minimum rmsd =' num2str(minrmsd)]);
+%}
+
+
+% optimal d0 = 100
+[bw_filter, output] = myButterworthFiltering(noisy, 100, 2);
+
+figure, imshow(imadjust(bw_filter)), title('butterworth filter');
+%disp(rmsd);
+figure, imshow(uint8(output)), title('filtered image');
+
+rmsd = sum(sum((output - img).^2));
+rmsd = rmsd/(size(img,1)*size(img,2));
+rmsd = sqrt(rmsd);
+
+%optimal rmsd
+disp('optimal d0: 100');
+disp(['optimal rmsd: ' num2str(rmsd)]);
+
+[bw, out] = myButterworthFiltering(noisy, 95, 2);
+rmsd = sum(sum((out - img).^2));
+rmsd = rmsd/(size(img,1)*size(img,2));
+rmsd = sqrt(rmsd);
+
+%optimal rmsd
+
+disp(['0.95*d0 rmsd: ' num2str(rmsd)]);
+
+[bw, out] = myButterworthFiltering(noisy, 105, 2);
+rmsd = sum(sum((out - img).^2));
+rmsd = rmsd/(size(img,1)*size(img,2));
+rmsd = sqrt(rmsd);
+
+%optimal rmsd
+
+disp(['1.05*d0 rmsd: ' num2str(rmsd)]);
+
+
+ft = fft2(img);
+ft = fftshift(ft);
+
+r = size(ft, 1);
+c = size(ft, 2);
+%{
+logft = log(ft);
+figure, imshow(abs(logft), [min(min(abs(logft))) max(max(abs(logft)))]), title('fourier transform of the image');
+%}
+dc = ft(r/2, c/2);
+disp(['dc offset: ' num2str(abs(dc))]);
+energy = sum(sum(abs(ft).^2));
+disp(['total energy of ft: ' num2str(energy)]);
+
+%{
+radius 1.4 - 90.5633 (88)
+radius 2.2 - 90.6931 (91)
+radius 2.3 - 92.6178 (92)
+radius 4.4 - 93.9973 (94)
+radius 14 - 96.9826 (97)
+radius 59 - 99.0074 (99)
+%}
+
+radii = [1.4 2.2 2.3 4.4 14 59];
+for i=1:6
+    R = radii(i);
+    filtered = zeros(size(ft));
+    for a=1:r
+        for b=1:c
+            dist = sqrt((a-r/2)^2 + (b-c/2)^2);
+            if(dist < R)
+                filtered(a,b) = ft(a,b);
+            end;
+        end;
+    end;
+    filtered = ifftshift(filtered);
+    inv = ifft2(filtered);
+    inv = abs(inv);
+    diff = (inv - img).^2;
+    s = sum(sum(diff));
+    rmsd = sqrt(s/(size(inv,1)*size(inv,2)));
+    disp(['for radius: ' num2str(R) ' rmsd = ' num2str(rmsd)]);
+end;
+%{
+for R = 50:70
+    tmpenergy = 0;
+    for i=1:r
+        for j=1:c
+            dist = sqrt((i-r/2)^2 + (j-c/2)^2);
+            
+            if(dist < R)
+                tmpenergy = tmpenergy + abs(ft(i,j))^2;
+            end;
+        end;
+    end;
+    perc = (tmpenergy/energy)*100;
+    disp(['for radius: ' num2str(R) ' energy = ' num2str(perc) '%']);
+end;
+%}
+%disp(output);
+
+
+toc;
+
+##### SOURCE END #####
+--></body></html>
