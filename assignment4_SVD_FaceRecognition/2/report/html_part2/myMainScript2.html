@@ -1,0 +1,402 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>myMainScript2</title><meta name="generator" content="MATLAB 8.4"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-10-10"><meta name="DC.source" content="myMainScript2.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h2>Contents</h2><div><ul><li><a href="#1">MyMainScript</a></li><li><a href="#2">The value of k</a></li><li><a href="#3">Fetching the images</a></li><li><a href="#4">Computing the mean and subtracting it from each point</a></li><li><a href="#5">Computation of co-variance matrix</a></li><li><a href="#6">Obtaining eigenvectors of C from those of L</a></li><li><a href="#7">Unit-normalizing V</a></li><li><a href="#8">Picking eigenvectors corresponding to top k eigenvalues</a></li><li><a href="#10">Projecting each point onto the eigenspace</a></li><li><a href="#11">Plots</a></li></ul></div><h2>MyMainScript<a name="1"></a></h2><pre class="codeinput">tic;
+</pre><h2>The value of k<a name="2"></a></h2><pre class="codeinput">karr = [1, 2, 3, 5, 10, 20, 30, 50, 60, 65, 75, 100, 200, 300, 500, 1000];
+</pre><h2>Fetching the images<a name="3"></a></h2><pre class="codeinput"><span class="comment">%root = uigetdir;</span>
+<span class="comment">%disp(root);</span>
+X = [];
+test = [];
+r=0;
+c=0;
+root = <span class="string">'/home/nishant/Acads/Sem7/DIP/assignments/CroppedYale/'</span>;
+
+<span class="comment">%delete(h);</span>
+disp(<span class="string">'Reading database'</span>);
+
+N = 38*30;
+
+<span class="keyword">for</span> i=1:39
+
+    yale = <span class="string">'yaleB'</span>;
+    <span class="keyword">if</span> i==14
+        <span class="keyword">continue</span>;
+    <span class="keyword">end</span>;
+    <span class="keyword">if</span> i&lt;10
+        yale = strcat(yale, <span class="string">'0'</span>);
+    <span class="keyword">end</span>;
+    yale = strcat(yale, num2str(i));
+    persondir = strcat(root, yale);
+    <span class="comment">%disp(persondir);</span>
+    pgms = strcat(persondir, <span class="string">'/*.pgm'</span>);
+    imgs = dir(pgms);
+    <span class="comment">%disp(pgms);</span>
+    <span class="keyword">for</span> it=1:30
+        <span class="comment">%waitbar((i*30+it)/390);</span>
+        imgname = imgs(it).name;
+        imgpath = strcat(persondir, <span class="string">'/'</span>, imgname);
+        img = imread(imgpath);
+        [r,c] = size(img);
+        img = reshape(img', r*c, 1);
+        X = [X img];
+    <span class="keyword">end</span>;
+    <span class="keyword">for</span> it=31:60
+        <span class="comment">%waitbar((i*30+it)/390);</span>
+        imgname = imgs(it).name;
+        imgpath = strcat(persondir, <span class="string">'/'</span>, imgname);
+        img = imread(imgpath);
+        [r,c] = size(img);
+        img = reshape(img', r*c, 1);
+        test = [test img];
+    <span class="keyword">end</span>;
+<span class="keyword">end</span>;
+disp(<span class="string">'Database fetched'</span>);
+<span class="comment">%disp(size(X));</span>
+
+disp(<span class="string">'Performing required computations'</span>);
+</pre><pre class="codeoutput">Reading database
+Database fetched
+Performing required computations
+</pre><h2>Computing the mean and subtracting it from each point<a name="4"></a></h2><pre class="codeinput">m = mean(X, 2);
+A = bsxfun(@minus, double(X), m(:,1));
+</pre><h2>Computation of co-variance matrix<a name="5"></a></h2><pre class="codeinput">L = A'*A;
+[W,D] = eigs(L, N);
+</pre><pre class="codeoutput">Warning: For real symmetric problems, must have number of eigenvalues k &lt; n.
+ Using eig instead. 
+</pre><h2>Obtaining eigenvectors of C from those of L<a name="6"></a></h2><pre class="codeinput">V = A*W;
+</pre><h2>Unit-normalizing V<a name="7"></a></h2><pre class="codeinput">V = normc(V);
+</pre><h2>Picking eigenvectors corresponding to top k eigenvalues<a name="8"></a></h2><pre class="codeinput">rates = zeros(size(karr));
+rates1 = zeros(size(karr));
+
+disp(<span class="string">'Recognizing the test images'</span>);
+h = waitbar(0, <span class="string">'Performing recognition..'</span>);
+
+EVtmp = V'*A;
+
+<span class="keyword">for</span> kind=1:size(karr,2)
+</pre><pre class="codeinput">    k = karr(kind);
+    <span class="comment">%thres = T(k+3);</span>
+
+    EV = V(:, 4:k+4);
+    EV1 = V(:, 1:k);
+</pre><h2>Projecting each point onto the eigenspace<a name="10"></a></h2><pre class="codeinput">    <span class="comment">%projected = EV'*A;</span>
+    projected = EVtmp(4:k+4,:);
+    projected1 = EVtmp(1:k,:);
+    <span class="comment">%figure;</span>
+    tot1 = 13;
+    tot2 = 39-tot1;
+    tot = 39;
+
+    <span class="comment">%mindistarr = [];</span>
+    recognized = 0;
+    recognized1 = 0;
+    total = (tot-1)*30;
+    totcount = 1;
+    <span class="keyword">for</span> p=1:tot
+        <span class="comment">%waitbar((kind*38)/(size(karr,2)*38));</span>
+
+        <span class="keyword">if</span> p==14
+            <span class="keyword">continue</span>;
+        <span class="keyword">end</span>;
+
+        <span class="keyword">for</span> it=31:60
+            testvec = test(:, totcount);
+            totcount = totcount + 1;
+            testvec = double(testvec)-m;
+
+            projtest = EV'*testvec;
+            ind = dsearchn(projected', projtest');
+            person = ceil(ind/30);
+
+            <span class="keyword">if</span> person &gt;= 14
+                person = person + 1;
+            <span class="keyword">end</span>;
+
+            imgind = rem(ind,30)+1;
+            <span class="keyword">if</span> person==p
+                recognized=recognized+1;
+            <span class="keyword">end</span>;
+
+
+            projtest = EV1'*testvec;
+            ind = dsearchn(projected1', projtest');
+            person = ceil(ind/30);
+
+            <span class="keyword">if</span> person &gt;= 14
+                person = person + 1;
+            <span class="keyword">end</span>;
+            imgind = rem(ind,30)+1;
+            <span class="keyword">if</span> person==p
+                recognized1=recognized1+1;
+            <span class="keyword">end</span>;
+        <span class="keyword">end</span>;
+    <span class="keyword">end</span>;
+
+    rates(kind) = double(recognized*100.0/total);
+    rates1(kind) = double(recognized1*100.0/total);
+    waitbar(kind/size(karr,2));
+</pre><pre class="codeinput"><span class="keyword">end</span>;
+delete(h);
+disp(rates);
+disp(rates1);
+figure, plot(karr, rates), xlabel(<span class="string">'k'</span>), ylabel(<span class="string">'% recognition rate'</span>), title(<span class="string">'Recognition rate vs. k after removing top 3 eigenvectors'</span>);
+figure, plot(karr, rates1), xlabel(<span class="string">'k'</span>), ylabel(<span class="string">'% recognition rate'</span>), title(<span class="string">'Recognition rate vs. k'</span>);
+
+toc;
+</pre><pre class="codeoutput">Recognizing the test images
+  Columns 1 through 7
+
+    5.4386   11.0526   11.8421   20.9649   35.1754   45.3509   49.3860
+
+  Columns 8 through 14
+
+   55.0000   57.1053   57.6316   58.2456   60.7018   62.9825   63.6842
+
+  Columns 15 through 16
+
+   63.9474   64.3860
+
+  Columns 1 through 7
+
+    4.3860    3.2456    4.4737   11.4035   22.8947   32.8947   36.2281
+
+  Columns 8 through 14
+
+   40.3509   41.3158   41.7544   42.6316   44.0351   45.2632   45.7895
+
+  Columns 15 through 16
+
+   45.8772   46.1404
+
+Elapsed time is 215.038938 seconds.
+</pre><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2014b</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% MyMainScript
+
+tic;
+%% The value of k
+karr = [1, 2, 3, 5, 10, 20, 30, 50, 60, 65, 75, 100, 200, 300, 500, 1000];
+
+%% Fetching the images
+root = uigetdir;
+root = strcat(root, '/');
+%disp(root);
+X = [];
+test = [];
+r=0;
+c=0;
+%root = '/home/nishant/Acads/Sem7/DIP/assignments/CroppedYale/';
+
+%delete(h);
+disp('Reading database');
+
+N = 38*30;
+
+for i=1:39
+    
+    yale = 'yaleB';
+    if i==14
+        continue;
+    end;
+    if i<10
+        yale = strcat(yale, '0');
+    end;
+    yale = strcat(yale, num2str(i));
+    persondir = strcat(root, yale);
+    %disp(persondir);
+    pgms = strcat(persondir, '/*.pgm');
+    imgs = dir(pgms);
+    %disp(pgms);
+    for it=1:30
+        %waitbar((i*30+it)/390);
+        imgname = imgs(it).name;
+        imgpath = strcat(persondir, '/', imgname);
+        img = imread(imgpath);
+        [r,c] = size(img);
+        img = reshape(img', r*c, 1);
+        X = [X img];
+    end;
+    for it=31:60
+        %waitbar((i*30+it)/390);
+        imgname = imgs(it).name;
+        imgpath = strcat(persondir, '/', imgname);
+        img = imread(imgpath);
+        [r,c] = size(img);
+        img = reshape(img', r*c, 1);
+        test = [test img];
+    end;
+end;
+disp('Database fetched');
+%disp(size(X));
+
+disp('Performing required computations');
+
+%% Computing the mean and subtracting it from each point
+m = mean(X, 2);
+A = bsxfun(@minus, double(X), m(:,1));
+
+%% Computation of co-variance matrix
+L = A'*A;
+[W,D] = eigs(L, N);
+
+%% Obtaining eigenvectors of C from those of L
+V = A*W;
+
+%% Unit-normalizing V
+V = normc(V);
+
+%% Picking eigenvectors corresponding to top k eigenvalues
+
+rates = zeros(size(karr));
+rates1 = zeros(size(karr));
+
+disp('Recognizing the test images');
+h = waitbar(0, 'Performing recognition..');
+
+EVtmp = V'*A;
+
+for kind=1:size(karr,2)
+    
+    k = karr(kind);
+    %thres = T(k+3);
+
+    EV = V(:, 4:k+4);
+    EV1 = V(:, 1:k);
+    
+    
+    %% Projecting each point onto the eigenspace
+    %projected = EV'*A;
+    projected = EVtmp(4:k+4,:);
+    projected1 = EVtmp(1:k,:);
+    %figure;
+    tot1 = 13;
+    tot2 = 39-tot1;
+    tot = 39;
+    
+    %mindistarr = [];
+    recognized = 0;
+    recognized1 = 0;
+    total = (tot-1)*30;
+    totcount = 1;
+    for p=1:tot
+        %waitbar((kind*38)/(size(karr,2)*38));
+        
+        if p==14
+            continue;
+        end;
+        
+        for it=31:60
+            testvec = test(:, totcount);
+            totcount = totcount + 1;
+            testvec = double(testvec)-m;
+            
+            projtest = EV'*testvec;
+            ind = dsearchn(projected', projtest');
+            person = ceil(ind/30);
+            
+            if person >= 14
+                person = person + 1;
+            end;
+            
+            imgind = rem(ind,30)+1;
+            if person==p
+                recognized=recognized+1;
+            end;
+            
+            
+            projtest = EV1'*testvec;
+            ind = dsearchn(projected1', projtest');
+            person = ceil(ind/30);
+            
+            if person >= 14
+                person = person + 1;
+            end;
+            imgind = rem(ind,30)+1;
+            if person==p
+                recognized1=recognized1+1;
+            end;            
+        end;
+    end;
+
+    rates(kind) = double(recognized*100.0/total);
+    rates1(kind) = double(recognized1*100.0/total);
+    waitbar(kind/size(karr,2));
+end;
+delete(h);
+disp(rates);
+disp(rates1);
+figure, plot(karr, rates), xlabel('k'), ylabel('% recognition rate'), title('Recognition rate vs. k after removing top 3 eigenvectors');
+figure, plot(karr, rates1), xlabel('k'), ylabel('% recognition rate'), title('Recognition rate vs. k');
+
+toc;
+##### SOURCE END #####
+-->
+<h2>Plots<a name="11"></a></h2>
+<img src = './recrate.jpg'></img>
+<img src = './recrateremtop3.jpg'></img>
+</body></html>
