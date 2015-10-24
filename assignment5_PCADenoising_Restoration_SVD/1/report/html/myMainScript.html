@@ -1,0 +1,158 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>myMainScript</title><meta name="generator" content="MATLAB 8.4"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-10-24"><meta name="DC.source" content="myMainScript.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h2>Contents</h2><div><ul><li><a href="#1">MyMainScript</a></li><li><a href="#2">Your code here</a></li><li><a href="#3">Difference in PCA denoising and bilateral filtering</a></li></ul></div><h2>MyMainScript<a name="1"></a></h2><pre class="codeinput">tic;
+</pre><h2>Your code here<a name="2"></a></h2><pre class="codeinput">sigma = 20;
+org = imread(<span class="string">'../data/barbara256.png'</span>);
+org = double(org);
+img = org + randn(size(org))*sigma;
+result1 = myPCAdenoising1(img, sigma);
+result2 = myPCAdenoising2(img, sigma);
+result3 = myBilateralFiltering(img, 1.45, 10.0);
+sqerror = (result1 - double(org)).^2;
+meansqerror = sum(sum(sqerror))/(size(sqerror,1)*size(sqerror,2));
+s = sprintf(<span class="string">'The mean squared error for PCAD 1 is %f\n'</span>, meansqerror);
+disp(s);
+sqerror = (result2 - double(org)).^2;
+meansqerror = sum(sum(sqerror))/(size(sqerror,1)*size(sqerror,2));
+s = sprintf(<span class="string">'The mean squared error for PCAD 2 is %f\n'</span>, meansqerror);
+disp(s);
+sqerror = (result3 - double(org)).^2;
+meansqerror = sum(sum(sqerror))/(size(sqerror,1)*size(sqerror,2));
+s = sprintf(<span class="string">'The mean squared error for bilateral filtering is %f\n'</span>, meansqerror);
+disp(s);
+figure, imshow(uint8(org)), title(<span class="string">'Original Image'</span>);
+figure, imshow(uint8(img)), title(<span class="string">'Noisy Image'</span>);
+figure, imshow(uint8(result1)), title(<span class="string">'Denoised using PCA denoising1'</span>);
+figure, imshow(uint8(result2)), title(<span class="string">'Denoised using PCA denoising2'</span>);
+figure, imshow(uint8(result3)), title(<span class="string">'Denoised using Bilateral Filtering'</span>);
+</pre><pre class="codeoutput">The mean squared error for PCAD 1 is 96.834329
+
+The mean squared error for PCAD 2 is 60.198470
+
+The mean squared error for bilateral filtering is 339.443456
+
+</pre><img vspace="5" hspace="5" src="myMainScript_01.png" alt=""> <img vspace="5" hspace="5" src="myMainScript_02.png" alt=""> <img vspace="5" hspace="5" src="myMainScript_03.png" alt=""> <img vspace="5" hspace="5" src="myMainScript_04.png" alt=""> <img vspace="5" hspace="5" src="myMainScript_05.png" alt=""> <h2>Difference in PCA denoising and bilateral filtering<a name="3"></a></h2><pre class="codeinput"><span class="comment">%{
+</span><span class="comment">Denoising specifically means removal of noise whereas filtering is
+</span><span class="comment">a more general term where it can mean anything from image enhancement
+</span><span class="comment">to edge detection. Bilateral filter is one such filter to remove
+</span><span class="comment">noise from images.
+</span><span class="comment">The major difference between bilateral filtering and PCA based denoising
+</span><span class="comment">is that PCA does dimensionality reduction whereas no such thing happens
+</span><span class="comment">in Bilateral filtering. It ust smoothens the image to remove noise.
+</span><span class="comment">%}
+</span>
+
+toc;
+</pre><pre class="codeoutput">Elapsed time is 601.237131 seconds.
+</pre><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2014b</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% MyMainScript
+
+tic;
+%% Your code here
+sigma = 20;
+org = imread('../data/barbara256.png');
+org = double(org);
+img = org + randn(size(org))*sigma;
+result1 = myPCAdenoising1(img, sigma);
+result2 = myPCAdenoising2(img, sigma);
+result3 = myBilateralFiltering(img, 1.45, 10.0);
+sqerror = (result1 - double(org)).^2;
+meansqerror = sum(sum(sqerror))/(size(sqerror,1)*size(sqerror,2));
+s = sprintf('The mean squared error for PCAD 1 is %f\n', meansqerror);
+disp(s);
+sqerror = (result2 - double(org)).^2;
+meansqerror = sum(sum(sqerror))/(size(sqerror,1)*size(sqerror,2));
+s = sprintf('The mean squared error for PCAD 2 is %f\n', meansqerror);
+disp(s);
+sqerror = (result3 - double(org)).^2;
+meansqerror = sum(sum(sqerror))/(size(sqerror,1)*size(sqerror,2));
+s = sprintf('The mean squared error for bilateral filtering is %f\n', meansqerror);
+disp(s);
+figure, imshow(uint8(org)), title('Original Image');
+figure, imshow(uint8(img)), title('Noisy Image');
+figure, imshow(uint8(result1)), title('Denoised using PCA denoising1');
+figure, imshow(uint8(result2)), title('Denoised using PCA denoising2');
+figure, imshow(uint8(result3)), title('Denoised using Bilateral Filtering');
+%% Difference in PCA denoising and bilateral filtering
+%{
+Denoising specifically means removal of noise whereas filtering is
+a more general term where it can mean anything from image enhancement
+to edge detection. Bilateral filter is one such filter to remove
+noise from images.
+The major difference between bilateral filtering and PCA based denoising
+is that PCA does dimensionality reduction whereas no such thing happens
+in Bilateral filtering. It ust smoothens the image to remove noise.
+%}
+
+
+toc;
+
+##### SOURCE END #####
+--></body></html>
