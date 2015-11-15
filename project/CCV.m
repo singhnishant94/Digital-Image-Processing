@@ -30,6 +30,12 @@ function [vector] = CCV(image_name,factor,THRESHOLD)
         if x < 1 || y < 1 || x > s(1) || y > s(2) || visited(x,y)==1
             return
         end;
+        
+        % To prevent maximum recursion limit
+        if count == 490 
+            return
+        end;
+        
         bin = calcbin(x,y);
         curbin = bin;
         if prevbin ~= bin && prevbin ~=0
