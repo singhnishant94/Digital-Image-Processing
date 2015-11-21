@@ -1,3 +1,7 @@
+%  This script generates the database, i.e. calls the CCV
+%  function to store the CCV values so that it can be used
+%  later to check for match. The output is saved as .mat file.
+
 pref = 'arborgreens';
 disp(pref);
 

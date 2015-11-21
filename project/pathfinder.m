@@ -1,6 +1,9 @@
 function [path0, path1, path2, path3] = pathfinder( row )
-%UNTITLED3 Summary of this function goes here
-%   Detailed explanation goes here
+%pathfinder Summary of this function goes here
+%   This function finds the path of the image given its
+%   index in the CCV gallery. The number of images for
+%   each directory is known beforehand and therefore
+%   the image location can be found out.
 
 folder = './data/imagedatabase.cs.washington.edu/groundtruth/';
 aus = strcat(folder, 'australia/');
