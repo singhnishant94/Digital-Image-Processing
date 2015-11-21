@@ -20,6 +20,8 @@ function [vector] = CCV(image_name,factor,THRESHOLD)
         return;
     end;
     image = imread(image_name);
+    avg_filt = fspecial('average');
+    image = imfilter(image, avg_filt);
     image = floor(double(image)/factor);
     hist = zeros(antifactor*antifactor*antifactor,2);
     s = size(image);
