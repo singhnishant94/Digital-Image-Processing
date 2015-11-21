@@ -12,8 +12,6 @@ for ii=1:nfiles
    disp(currentfilename);
    im = CCV(strcat(folder,currentfilename), 16);
    ccvs = cat(3, ccvs, im);
-   %currentimage = imread(currentfilename);
-   %im(ii) = currentfilename;
 end
 
     
