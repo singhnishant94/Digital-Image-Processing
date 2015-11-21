@@ -1,0 +1,240 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>categorize</title><meta name="generator" content="MATLAB 8.4"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-11-22"><meta name="DC.source" content="categorize.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><pre class="codeinput">load <span class="string">iran.mat</span>;
+load <span class="string">arborgreens.mat</span>;
+load <span class="string">cambridge.mat</span>;
+load <span class="string">australia.mat</span>;
+load <span class="string">gallery.mat</span>;
+folder = <span class="string">'./data/imagedatabase.cs.washington.edu/groundtruth/'</span>;
+aus = strcat(folder, <span class="string">'australia/'</span>);
+arb = strcat(folder, <span class="string">'arborgreens/'</span>);
+bar = strcat(folder, <span class="string">'barcelona/barcelona'</span>);
+cam = strcat(folder, <span class="string">'cambridge'</span>);
+
+
+
+szira = size(iran, 3);
+szaus = size(australia, 3);
+szarb = size(arborgreens, 3);
+szcam = size(cambridge, 3);
+gallery = [];
+
+<span class="keyword">for</span> i = 1:size(arborgreens, 3)
+    gallery = cat(3, gallery, arborgreens(:,:,i));
+<span class="keyword">end</span>;
+<span class="keyword">for</span> i = 1:size(australia, 3)
+    gallery = cat(3, gallery, australia(:,:,i));
+<span class="keyword">end</span>;
+<span class="keyword">for</span> i = 1:size(cambridge, 3)
+    gallery = cat(3, gallery, cambridge(:,:,i));
+<span class="keyword">end</span>;
+<span class="keyword">for</span> i = 1:size(iran, 3)
+    gallery = cat(3, gallery, iran(:,:,i));
+<span class="keyword">end</span>;
+
+
+
+
+match = zeros(size(gallery, 3), 3);
+match = [];
+count = 0;
+<span class="comment">%for i = 1 : size(gallery, 3)</span>
+occured = zeros(size(gallery, 3), 1);
+<span class="keyword">while</span> count &lt; 26
+    i = randi(size(gallery, 3));
+    <span class="keyword">while</span> occured(i) == 0
+        i = randi(size(gallery, 3));
+        occured(i) = 1;
+    <span class="keyword">end</span>;
+    count = count + 1;
+    mindelta = 100000000;
+    ind = -1;
+    mat = [ind mindelta; ind mindelta; ind mindelta];
+    <span class="keyword">for</span> j = 1 : size(gallery,3)
+        <span class="keyword">if</span> i == j
+            <span class="keyword">continue</span>;
+        <span class="keyword">end</span>;
+        mat = sortrows(mat, 2);
+        curdelta = sum(deltaCCV(gallery(:,:,j), gallery(:,:,i)));
+        <span class="keyword">if</span> curdelta &lt; mat(3, 2)
+            mat(3,2) = curdelta;
+            mat(3,1) = j;
+        <span class="keyword">end</span>;
+    <span class="keyword">end</span>;
+    match = [match; [i mat(1,1) mat(2,1) mat(3,1)]];
+<span class="keyword">end</span>;
+
+paths = [];
+<span class="keyword">for</span> i = 1:size(match, 1)
+    [x1, x2, x3, x4] = pathfinder(match(i,:));
+    <span class="comment">%disp({x1, x2, x3, x4});</span>
+    paths = [paths; {x1 x2 x3 x4}];
+<span class="keyword">end</span>;
+
+<span class="keyword">for</span> i = 1:size(paths,1)
+    figure;
+    x = paths(i,:);
+
+
+
+    subplot_tight(3,3,2), imshow(imread(x{1}));
+    subplot_tight(3,3,4), imshow(imread(x{2}));
+    subplot_tight(3,3,5), imshow(imread(x{3}));
+    subplot_tight(3,3,6), imshow(imread(x{4}));
+    <span class="comment">%}</span>
+
+<span class="keyword">end</span>;
+</pre><img vspace="5" hspace="5" src="categorize_01.png" alt=""> <img vspace="5" hspace="5" src="categorize_02.png" alt=""> <img vspace="5" hspace="5" src="categorize_03.png" alt=""> <img vspace="5" hspace="5" src="categorize_04.png" alt=""> <img vspace="5" hspace="5" src="categorize_05.png" alt=""> <img vspace="5" hspace="5" src="categorize_06.png" alt=""> <img vspace="5" hspace="5" src="categorize_07.png" alt=""> <img vspace="5" hspace="5" src="categorize_08.png" alt=""> <img vspace="5" hspace="5" src="categorize_09.png" alt=""> <img vspace="5" hspace="5" src="categorize_10.png" alt=""> <img vspace="5" hspace="5" src="categorize_11.png" alt=""> <img vspace="5" hspace="5" src="categorize_12.png" alt=""> <img vspace="5" hspace="5" src="categorize_13.png" alt=""> <img vspace="5" hspace="5" src="categorize_14.png" alt=""> <img vspace="5" hspace="5" src="categorize_15.png" alt=""> <img vspace="5" hspace="5" src="categorize_16.png" alt=""> <img vspace="5" hspace="5" src="categorize_17.png" alt=""> <img vspace="5" hspace="5" src="categorize_18.png" alt=""> <img vspace="5" hspace="5" src="categorize_19.png" alt=""> <img vspace="5" hspace="5" src="categorize_20.png" alt=""> <img vspace="5" hspace="5" src="categorize_21.png" alt=""> <img vspace="5" hspace="5" src="categorize_22.png" alt=""> <img vspace="5" hspace="5" src="categorize_23.png" alt=""> <img vspace="5" hspace="5" src="categorize_24.png" alt=""> <img vspace="5" hspace="5" src="categorize_25.png" alt=""> <img vspace="5" hspace="5" src="categorize_26.png" alt=""> <p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2014b</a><br></p></div><!--
+##### SOURCE BEGIN #####
+load iran.mat;
+load arborgreens.mat;
+load cambridge.mat;
+load australia.mat;
+load gallery.mat;
+folder = './data/imagedatabase.cs.washington.edu/groundtruth/';
+aus = strcat(folder, 'australia/');
+arb = strcat(folder, 'arborgreens/');
+bar = strcat(folder, 'barcelona/barcelona');
+cam = strcat(folder, 'cambridge');
+
+
+
+szira = size(iran, 3);
+szaus = size(australia, 3);
+szarb = size(arborgreens, 3);
+szcam = size(cambridge, 3);
+gallery = [];
+
+for i = 1:size(arborgreens, 3)
+    gallery = cat(3, gallery, arborgreens(:,:,i));
+end;
+for i = 1:size(australia, 3)
+    gallery = cat(3, gallery, australia(:,:,i));
+end;
+for i = 1:size(cambridge, 3)
+    gallery = cat(3, gallery, cambridge(:,:,i));
+end;
+for i = 1:size(iran, 3)
+    gallery = cat(3, gallery, iran(:,:,i));
+end;
+
+
+
+
+match = zeros(size(gallery, 3), 3);
+match = [];
+count = 0;
+%for i = 1 : size(gallery, 3)
+occured = zeros(size(gallery, 3), 1);
+while count < 26
+    i = randi(size(gallery, 3));
+    while occured(i) == 0
+        i = randi(size(gallery, 3));
+        occured(i) = 1;
+    end;
+    count = count + 1;
+    mindelta = 100000000;
+    ind = -1;
+    mat = [ind mindelta; ind mindelta; ind mindelta];
+    for j = 1 : size(gallery,3)
+        if i == j
+            continue;
+        end;
+        mat = sortrows(mat, 2);
+        curdelta = sum(deltaCCV(gallery(:,:,j), gallery(:,:,i)));
+        if curdelta < mat(3, 2)
+            mat(3,2) = curdelta;
+            mat(3,1) = j;
+        end;
+    end;
+    match = [match; [i mat(1,1) mat(2,1) mat(3,1)]];
+end;
+
+paths = [];
+for i = 1:size(match, 1)
+    [x1, x2, x3, x4] = pathfinder(match(i,:));
+    %disp({x1, x2, x3, x4});
+    paths = [paths; {x1 x2 x3 x4}];
+end;
+
+for i = 1:size(paths,1)
+    figure;
+    x = paths(i,:);
+    
+    
+    
+    subplot_tight(3,3,2), imshow(imread(x{1}));
+    subplot_tight(3,3,4), imshow(imread(x{2}));
+    subplot_tight(3,3,5), imshow(imread(x{3}));
+    subplot_tight(3,3,6), imshow(imread(x{4}));
+    %}
+    
+end;
+##### SOURCE END #####
+--></body></html>
