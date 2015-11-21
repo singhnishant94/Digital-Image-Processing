@@ -1,7 +1,7 @@
-pref = 'iran';
+pref = 'arborgreens';
 disp(pref);
 
-folder = '../imagedatabase.cs.washington.edu/groundtruth/iran/';
+folder = './data/imagedatabase.cs.washington.edu/groundtruth/arborgreens/';
 images = dir(strcat(folder,'*.jpg'));
 nfiles = length(images);    % Number of files found
 disp(nfiles);
