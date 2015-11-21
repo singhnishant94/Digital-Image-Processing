@@ -18,4 +18,4 @@ References:
 Team Members:
 
 1. 120050042 - [Prateek Chandan](http://www.prateekchandan.in)
-2. 120050043 - Nishant Kumar Singh
+2. 120050043 - [Nishant Kumar Singh](http://www.cse.iitb.ac.in/~nishantsingh)
