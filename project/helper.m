@@ -1,7 +1,7 @@
 pref = 'arborgreens';
 disp(pref);
 
-folder = './data/imagedatabase.cs.washington.edu/groundtruth/arborgreens/';
+folder = './data/imagedatabase.cs.washington.edu/groundtruth/australia/';
 images = dir(strcat(folder,'*.jpg'));
 nfiles = length(images);    % Number of files found
 disp(nfiles);
@@ -15,5 +15,3 @@ for ii=1:nfiles
 end
 
     
-
-disp(im);
