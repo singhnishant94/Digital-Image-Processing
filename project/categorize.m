@@ -1,3 +1,13 @@
+%{
+This script performs the categorization of an input image based on
+its CCV and how it compares with the images in the database.
+The CCV of the database has been precomputed and saved in
+gallery.mat. A few random images are then picked from the 
+same database and we match the test image's CCV with those
+present in the database except with the test image itself.
+We find the top 3 matches and output them as images.
+%}
+
 load iran.mat;
 load arborgreens.mat;
 load cambridge.mat;
