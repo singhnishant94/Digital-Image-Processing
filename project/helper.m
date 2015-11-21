@@ -1,7 +1,7 @@
 pref = 'arborgreens';
 disp(pref);
 
-folder = './data/imagedatabase.cs.washington.edu/groundtruth/arborgreens/';
+folder = './data/imagedatabase.cs.washington.edu/groundtruth/cambridge/';
 images = dir(strcat(folder,'*.jpg'));
 nfiles = length(images);    % Number of files found
 disp(nfiles);
