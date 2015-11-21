@@ -62,189 +62,27 @@ span.syscmd { color:#B28C00 }
 table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
 table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
 
+.normal-line{
+    font-size: 1.7em;
+}
 
 
 
+  </style></head><body>
 
-  </style></head><body><div class="content"><pre class="codeinput">load <span class="string">iran.mat</span>;
-load <span class="string">arborgreens.mat</span>;
-load <span class="string">cambridge.mat</span>;
-load <span class="string">australia.mat</span>;
-load <span class="string">gallery.mat</span>;
-folder = <span class="string">'./data/imagedatabase.cs.washington.edu/groundtruth/'</span>;
-aus = strcat(folder, <span class="string">'australia/'</span>);
-arb = strcat(folder, <span class="string">'arborgreens/'</span>);
-bar = strcat(folder, <span class="string">'barcelona/barcelona'</span>);
-cam = strcat(folder, <span class="string">'cambridge'</span>);
+<h1 style="padding-left:20px;font-size:3em">Project Report</h1>
+<h1 style="padding-left:20px;font-size:2em">Given an image frame, find the most similar image frame from a database of images, using color image histograms</h1>
 
+<ul class="normal-line">
+    <li>The number of bins for the histogram has been chosen to be 256/16 = 16 for each channel.</li>
+    <li>Thus the total number of bins are 16*16*16 = 4096. </li>
+    <li>The image has been blurred prior to histogram computation using an average filter.</li>
+</ul>
 
+<h2 style="padding-left:20px;font-size:2em">Here we have tested our result on random Images to find best matching 3 images</h2>
 
-szira = size(iran, 3);
-szaus = size(australia, 3);
-szarb = size(arborgreens, 3);
-szcam = size(cambridge, 3);
-gallery = [];
-
-<span class="keyword">for</span> i = 1:size(arborgreens, 3)
-    gallery = cat(3, gallery, arborgreens(:,:,i));
-<span class="keyword">end</span>;
-<span class="keyword">for</span> i = 1:size(australia, 3)
-    gallery = cat(3, gallery, australia(:,:,i));
-<span class="keyword">end</span>;
-<span class="keyword">for</span> i = 1:size(cambridge, 3)
-    gallery = cat(3, gallery, cambridge(:,:,i));
-<span class="keyword">end</span>;
-<span class="keyword">for</span> i = 1:size(iran, 3)
-    gallery = cat(3, gallery, iran(:,:,i));
-<span class="keyword">end</span>;
+</pre><img vspace="5" hspace="5" src="categorize_01.png" alt=""> <img vspace="5" hspace="5" src="categorize_02.png" alt=""> <img vspace="5" hspace="5" src="categorize_03.png" alt=""> <img vspace="5" hspace="5" src="categorize_04.png" alt=""> <img vspace="5" hspace="5" src="categorize_05.png" alt=""> <img vspace="5" hspace="5" src="categorize_06.png" alt=""> <img vspace="5" hspace="5" src="categorize_07.png" alt=""> <img vspace="5" hspace="5" src="categorize_08.png" alt=""> <img vspace="5" hspace="5" src="categorize_09.png" alt=""> <img vspace="5" hspace="5" src="categorize_10.png" alt=""> <img vspace="5" hspace="5" src="categorize_11.png" alt=""> <img vspace="5" hspace="5" src="categorize_12.png" alt=""> <img vspace="5" hspace="5" src="categorize_13.png" alt=""> <img vspace="5" hspace="5" src="categorize_14.png" alt=""> <img vspace="5" hspace="5" src="categorize_15.png" alt=""> <img vspace="5" hspace="5" src="categorize_16.png" alt=""> <img vspace="5" hspace="5" src="categorize_17.png" alt=""> <img vspace="5" hspace="5" src="categorize_18.png" alt=""> <img vspace="5" hspace="5" src="categorize_19.png" alt=""> <img vspace="5" hspace="5" src="categorize_20.png" alt=""> <img vspace="5" hspace="5" src="categorize_21.png" alt=""> <img vspace="5" hspace="5" src="categorize_22.png" alt=""> <img vspace="5" hspace="5" src="categorize_23.png" alt=""> <img vspace="5" hspace="5" src="categorize_24.png" alt=""> <img vspace="5" hspace="5" src="categorize_25.png" alt=""> <img vspace="5" hspace="5" src="categorize_26.png" alt=""> </div>
 
 
-
-
-match = zeros(size(gallery, 3), 3);
-match = [];
-count = 0;
-<span class="comment">%for i = 1 : size(gallery, 3)</span>
-occured = zeros(size(gallery, 3), 1);
-<span class="keyword">while</span> count &lt; 26
-    i = randi(size(gallery, 3));
-    <span class="keyword">while</span> occured(i) == 0
-        i = randi(size(gallery, 3));
-        occured(i) = 1;
-    <span class="keyword">end</span>;
-    count = count + 1;
-    mindelta = 100000000;
-    ind = -1;
-    mat = [ind mindelta; ind mindelta; ind mindelta];
-    <span class="keyword">for</span> j = 1 : size(gallery,3)
-        <span class="keyword">if</span> i == j
-            <span class="keyword">continue</span>;
-        <span class="keyword">end</span>;
-        mat = sortrows(mat, 2);
-        curdelta = sum(deltaCCV(gallery(:,:,j), gallery(:,:,i)));
-        <span class="keyword">if</span> curdelta &lt; mat(3, 2)
-            mat(3,2) = curdelta;
-            mat(3,1) = j;
-        <span class="keyword">end</span>;
-    <span class="keyword">end</span>;
-    match = [match; [i mat(1,1) mat(2,1) mat(3,1)]];
-<span class="keyword">end</span>;
-
-paths = [];
-<span class="keyword">for</span> i = 1:size(match, 1)
-    [x1, x2, x3, x4] = pathfinder(match(i,:));
-    <span class="comment">%disp({x1, x2, x3, x4});</span>
-    paths = [paths; {x1 x2 x3 x4}];
-<span class="keyword">end</span>;
-
-<span class="keyword">for</span> i = 1:size(paths,1)
-    figure;
-    x = paths(i,:);
-
-
-
-    subplot_tight(3,3,2), imshow(imread(x{1}));
-    subplot_tight(3,3,4), imshow(imread(x{2}));
-    subplot_tight(3,3,5), imshow(imread(x{3}));
-    subplot_tight(3,3,6), imshow(imread(x{4}));
-    <span class="comment">%}</span>
-
-<span class="keyword">end</span>;
-</pre><img vspace="5" hspace="5" src="categorize_01.png" alt=""> <img vspace="5" hspace="5" src="categorize_02.png" alt=""> <img vspace="5" hspace="5" src="categorize_03.png" alt=""> <img vspace="5" hspace="5" src="categorize_04.png" alt=""> <img vspace="5" hspace="5" src="categorize_05.png" alt=""> <img vspace="5" hspace="5" src="categorize_06.png" alt=""> <img vspace="5" hspace="5" src="categorize_07.png" alt=""> <img vspace="5" hspace="5" src="categorize_08.png" alt=""> <img vspace="5" hspace="5" src="categorize_09.png" alt=""> <img vspace="5" hspace="5" src="categorize_10.png" alt=""> <img vspace="5" hspace="5" src="categorize_11.png" alt=""> <img vspace="5" hspace="5" src="categorize_12.png" alt=""> <img vspace="5" hspace="5" src="categorize_13.png" alt=""> <img vspace="5" hspace="5" src="categorize_14.png" alt=""> <img vspace="5" hspace="5" src="categorize_15.png" alt=""> <img vspace="5" hspace="5" src="categorize_16.png" alt=""> <img vspace="5" hspace="5" src="categorize_17.png" alt=""> <img vspace="5" hspace="5" src="categorize_18.png" alt=""> <img vspace="5" hspace="5" src="categorize_19.png" alt=""> <img vspace="5" hspace="5" src="categorize_20.png" alt=""> <img vspace="5" hspace="5" src="categorize_21.png" alt=""> <img vspace="5" hspace="5" src="categorize_22.png" alt=""> <img vspace="5" hspace="5" src="categorize_23.png" alt=""> <img vspace="5" hspace="5" src="categorize_24.png" alt=""> <img vspace="5" hspace="5" src="categorize_25.png" alt=""> <img vspace="5" hspace="5" src="categorize_26.png" alt=""> <p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2014b</a><br></p></div>
-
-
-
-<!--
-##### SOURCE BEGIN #####
-load iran.mat;
-load arborgreens.mat;
-load cambridge.mat;
-load australia.mat;
-load gallery.mat;
-folder = './data/imagedatabase.cs.washington.edu/groundtruth/';
-aus = strcat(folder, 'australia/');
-arb = strcat(folder, 'arborgreens/');
-bar = strcat(folder, 'barcelona/barcelona');
-cam = strcat(folder, 'cambridge');
-
-
-
-szira = size(iran, 3);
-szaus = size(australia, 3);
-szarb = size(arborgreens, 3);
-szcam = size(cambridge, 3);
-gallery = [];
-
-for i = 1:size(arborgreens, 3)
-    gallery = cat(3, gallery, arborgreens(:,:,i));
-end;
-for i = 1:size(australia, 3)
-    gallery = cat(3, gallery, australia(:,:,i));
-end;
-for i = 1:size(cambridge, 3)
-    gallery = cat(3, gallery, cambridge(:,:,i));
-end;
-for i = 1:size(iran, 3)
-    gallery = cat(3, gallery, iran(:,:,i));
-end;
-
-
-
-
-match = zeros(size(gallery, 3), 3);
-match = [];
-count = 0;
-%for i = 1 : size(gallery, 3)
-occured = zeros(size(gallery, 3), 1);
-while count < 26
-    i = randi(size(gallery, 3));
-    while occured(i) == 0
-        i = randi(size(gallery, 3));
-        occured(i) = 1;
-    end;
-    count = count + 1;
-    mindelta = 100000000;
-    ind = -1;
-    mat = [ind mindelta; ind mindelta; ind mindelta];
-    for j = 1 : size(gallery,3)
-        if i == j
-            continue;
-        end;
-        mat = sortrows(mat, 2);
-        curdelta = sum(deltaCCV(gallery(:,:,j), gallery(:,:,i)));
-        if curdelta < mat(3, 2)
-            mat(3,2) = curdelta;
-            mat(3,1) = j;
-        end;
-    end;
-    match = [match; [i mat(1,1) mat(2,1) mat(3,1)]];
-end;
-
-paths = [];
-for i = 1:size(match, 1)
-    [x1, x2, x3, x4] = pathfinder(match(i,:));
-    %disp({x1, x2, x3, x4});
-    paths = [paths; {x1 x2 x3 x4}];
-end;
-
-for i = 1:size(paths,1)
-    figure;
-    x = paths(i,:);
-    
-    
-    
-    subplot_tight(3,3,2), imshow(imread(x{1}));
-    subplot_tight(3,3,4), imshow(imread(x{2}));
-    subplot_tight(3,3,5), imshow(imread(x{3}));
-    subplot_tight(3,3,6), imshow(imread(x{4}));
-    %}
-    
-end;
-##### SOURCE END #####
--->
-
-The number of bins for the histogram has been chosen to be 256/16 = 16 for each channel.
-Thus the total number of bins are 16*16*16 = 4096. 
-The image has been blurred prior to histogram computation using an average filter.
-
+<div><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2014b</a><br></p></div>
 </body></html>
