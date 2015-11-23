@@ -1,4 +1,4 @@
-function [path0, path1, path2, path3] = pathfinder( row )
+function [path0, path1, path2, path3, path4, path5, path6, path7, path8, path9] = pathfinder( row )
 %pathfinder Summary of this function goes here
 %   This function finds the path of the image given its
 %   index in the CCV gallery. The number of images for
@@ -20,6 +20,12 @@ orig = row(1);
 m1 = row(2);
 m2 = row(3);
 m3 = row(4);
+m4 = row(5);
+m5 = row(6);
+m6 = row(7);
+m7 = row(8);
+m8 = row(9);
+m9 = row(10);
 
     function path = help(num)
         t = num;
@@ -73,6 +79,12 @@ m3 = row(4);
     path1 = help(m1);
     path2 = help(m2);
     path3 = help(m3);
+    path4 = help(m4);
+    path5 = help(m5);
+    path6 = help(m6);
+    path7 = help(m7);
+    path8 = help(m8);
+    path9 = help(m9);
     
     
 end
