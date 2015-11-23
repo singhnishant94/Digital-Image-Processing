@@ -10,6 +10,8 @@ Files Description
 * **categorize.m** (Script) : This script takes as input an image and returns its three closest match in the database
 * **subplot_tight.m** (Script) : This is the helper function which makes the images in the plot use maximum space available in the figure
 
+Note : After cloning the repository , downlaod the image data from here (if its not there) https://drive.google.com/file/d/0B4lHa9BydZxLa3VpaFRLcGctMFk/view?usp=sharing and store it in folder named data in the project repository
+
 References:
 * For data we have used the following source http://imagedatabase.cs.washington.edu/groundtruth/
 * The original Paper http://www.cs.cornell.edu/~rdz/papers/pz-wacv96.pdf
