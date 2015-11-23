@@ -13,6 +13,23 @@
     </style>
 </head>
 <body>
+<h1 style="padding-left:20px;font-size:2em">Project Report</h1>
+<h1 style="padding-left:20px;font-size:1.2em">Given an image frame, find the most similar image frame from a database of images, using color image histograms</h1>
+
+<ul class="normal-line">
+    <li>The number of bins for the histogram has been chosen to be 256/16 = 16 for each channel.</li>
+    <li>Thus the total number of bins are 16*16*16 = 4096. </li>
+    <li>The image has been blurred prior to histogram computation using an average filter.</li>
+    <li>For centering 80% of the smaller dimension is considered as the diameter of the circle</li>
+</ul>
+
+<h3>Remarks:</h3>
+<ol>
+    <li>We can see that the three provides similar result with minor differences</li>
+    <li>The best result is given after centering refining, CCV and Color histogram gives the least expected result in most cases</li>
+    <li>In some cases like 1,9,12 etc we get very good result</li>
+    <li>In cases like 17,18,24 we get some of the very unexpected results</li>
+</ol>
 <table>
     <thead>
     <tr>
