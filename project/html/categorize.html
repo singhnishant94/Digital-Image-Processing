@@ -1,88 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Project Report Result</title>
+    <style type="text/css">
+    td,th{
+        border: 1px solid #ccc;
+        margin: 1px;
+    }
+    img{
+        width: 150px;
+    }
+    </style>
+</head>
+<body>
+<table>
+    <thead>
+    <tr>
+        <th>Sl No</th>
+        <th>Original Image</th>
+        <th colspan="3">Best Images from CCV</th>
+        <th colspan="3">Best Images from Color Histogram</th>
+        <th colspan="3">Best Images with CCV and centering</th>
+    </tr>
+    </thead>
+    <tbody id="table">
+        
+    </tbody>
 
-<!DOCTYPE html
-  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<html><head>
-      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-   <!--
-This HTML was auto-generated from MATLAB code.
-To make changes, update the MATLAB code and republish this document.
-      --><title>categorize</title><meta name="generator" content="MATLAB 8.4"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-11-22"><meta name="DC.source" content="categorize.m"><style type="text/css">
-html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+</table>
+<script type="text/javascript">
+    var strings = [["./data/imagedatabase.cs.washington.edu/groundtruth/australia/Image27.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/arborgreens/Image31.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/arborgreens/Image37.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/arborgreens/Image04.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/arborgreens/Image31.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/arborgreens/Image37.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/iran/Image07.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/arborgreens/Image31.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/arborgreens/Image37.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/arborgreens/Image04.jpg"],
+["./data/imagedatabase.cs.washington.edu/groundtruth/iran/Image32.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/iran/Image41.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/cambridge/050.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/australia/Image24.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/cambridge/050.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/iran/Image14.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/iran/Image41.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/iran/Image41.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/australia/Image24.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/cambridge/050.jpg"],
+["./data/imagedatabase.cs.washington.edu/groundtruth/cambridge/010.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/australia/Image12.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/cambridge/009.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/iran/Image06.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/australia/Image12.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/cambridge/009.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/iran/Image06.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/australia/Image12.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/iran/Image06.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/cambridge/009.jpg"],
+["./data/imagedatabase.cs.washington.edu/groundtruth/cambridge/010.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/australia/Image12.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/cambridge/009.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/iran/Image06.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/australia/Image12.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/cambridge/009.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/iran/Image06.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/australia/Image12.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/iran/Image06.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/cambridge/009.jpg"],
+["./data/imagedatabase.cs.washington.edu/groundtruth/iran/Image32.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/iran/Image41.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/cambridge/050.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/australia/Image24.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/cambridge/050.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/iran/Image14.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/iran/Image41.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/iran/Image41.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/australia/Image24.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/cambridge/050.jpg"],
+["./data/imagedatabase.cs.washington.edu/groundtruth/arborgreens/Image20.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/arborgreens/Image21.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/arborgreens/Image22.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/arborgreens/Image37.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/arborgreens/Image21.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/arborgreens/Image22.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/arborgreens/Image31.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/arborgreens/Image21.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/arborgreens/Image22.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/arborgreens/Image24.jpg"],
+["./data/imagedatabase.cs.washington.edu/groundtruth/australia/Image22.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/cambridge/027.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/iran/Image38.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/cambridge/025.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/cambridge/027.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/cambridge/030.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/iran/Image38.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/cambridge/027.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/iran/Image38.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/iran/Image49.jpg"],
+["./data/imagedatabase.cs.washington.edu/groundtruth/australia/Image25.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/iran/Image32.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/iran/Image36.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/australia/Image08.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/cambridge/001.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/iran/Image14.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/iran/Image49.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/iran/Image36.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/iran/Image32.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/iran/Image49.jpg"],
+["./data/imagedatabase.cs.washington.edu/groundtruth/arborgreens/Image24.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/arborgreens/Image20.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/arborgreens/Image47.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/arborgreens/Image44.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/arborgreens/Image12.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/arborgreens/Image45.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/arborgreens/Image13.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/arborgreens/Image20.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/arborgreens/Image47.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/arborgreens/Image13.jpg"],
+["./data/imagedatabase.cs.washington.edu/groundtruth/iran/Image42.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/iran/Image47.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/australia/Image02.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/iran/Image11.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/australia/Image02.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/iran/Image48.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/iran/Image11.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/iran/Image47.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/australia/Image02.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/iran/Image43.jpg"],
+["./data/imagedatabase.cs.washington.edu/groundtruth/arborgreens/Image11.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/arborgreens/Image10.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/arborgreens/Image12.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/arborgreens/Image29.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/arborgreens/Image10.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/arborgreens/Image12.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/arborgreens/Image29.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/arborgreens/Image10.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/arborgreens/Image12.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/arborgreens/Image29.jpg"],
+["./data/imagedatabase.cs.washington.edu/groundtruth/australia/Image16.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/australia/Image17.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/arborgreens/Image14.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/arborgreens/Image03.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/australia/Image17.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/arborgreens/Image06.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/arborgreens/Image03.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/australia/Image17.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/arborgreens/Image03.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/arborgreens/Image14.jpg"],
+["./data/imagedatabase.cs.washington.edu/groundtruth/arborgreens/Image03.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/australia/Image17.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/arborgreens/Image32.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/arborgreens/Image07.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/arborgreens/Image27.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/arborgreens/Image32.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/australia/Image17.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/arborgreens/Image32.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/arborgreens/Image07.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/australia/Image17.jpg"],
+["./data/imagedatabase.cs.washington.edu/groundtruth/arborgreens/Image30.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/arborgreens/Image23.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/arborgreens/Image07.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/arborgreens/Image32.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/arborgreens/Image23.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/arborgreens/Image09.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/arborgreens/Image32.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/arborgreens/Image23.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/arborgreens/Image32.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/arborgreens/Image07.jpg"],
+["./data/imagedatabase.cs.washington.edu/groundtruth/iran/Image02.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/iran/Image43.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/iran/Image33.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/iran/Image11.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/iran/Image43.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/australia/Image02.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/iran/Image11.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/iran/Image43.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/iran/Image33.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/iran/Image48.jpg"],
+["./data/imagedatabase.cs.washington.edu/groundtruth/cambridge/003.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/arborgreens/Image12.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/arborgreens/Image05.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/arborgreens/Image13.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/arborgreens/Image12.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/arborgreens/Image28.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/arborgreens/Image05.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/arborgreens/Image12.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/arborgreens/Image05.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/arborgreens/Image11.jpg"],
+["./data/imagedatabase.cs.washington.edu/groundtruth/australia/Image06.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/australia/Image19.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/australia/Image01.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/iran/Image11.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/australia/Image19.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/iran/Image11.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/australia/Image01.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/australia/Image19.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/australia/Image01.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/iran/Image11.jpg"],
+["./data/imagedatabase.cs.washington.edu/groundtruth/arborgreens/Image34.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/australia/Image30.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/cambridge/044.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/australia/Image11.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/australia/Image11.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/australia/Image30.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/cambridge/044.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/australia/Image30.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/australia/Image11.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/cambridge/044.jpg"],
+["./data/imagedatabase.cs.washington.edu/groundtruth/arborgreens/Image33.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/arborgreens/Image37.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/arborgreens/Image02.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/arborgreens/Image15.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/arborgreens/Image37.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/arborgreens/Image02.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/arborgreens/Image27.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/arborgreens/Image02.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/arborgreens/Image15.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/arborgreens/Image37.jpg"],
+["./data/imagedatabase.cs.washington.edu/groundtruth/cambridge/034.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/cambridge/045.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/cambridge/029.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/cambridge/030.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/cambridge/045.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/cambridge/029.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/cambridge/030.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/cambridge/029.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/cambridge/045.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/cambridge/030.jpg"],
+["./data/imagedatabase.cs.washington.edu/groundtruth/arborgreens/Image15.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/arborgreens/Image02.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/arborgreens/Image33.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/arborgreens/Image26.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/arborgreens/Image02.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/arborgreens/Image33.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/arborgreens/Image27.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/arborgreens/Image02.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/arborgreens/Image33.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/arborgreens/Image26.jpg"],
+["./data/imagedatabase.cs.washington.edu/groundtruth/iran/Image10.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/iran/Image05.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/arborgreens/Image07.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/iran/Image29.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/iran/Image05.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/iran/Image38.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/australia/Image17.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/iran/Image05.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/iran/Image38.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/iran/Image29.jpg"],
+["./data/imagedatabase.cs.washington.edu/groundtruth/australia/Image30.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/arborgreens/Image34.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/australia/Image29.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/australia/Image11.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/australia/Image29.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/arborgreens/Image34.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/australia/Image10.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/arborgreens/Image34.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/australia/Image29.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/australia/Image11.jpg"],
+["./data/imagedatabase.cs.washington.edu/groundtruth/australia/Image07.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/australia/Image04.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/iran/Image32.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/australia/Image24.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/australia/Image04.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/australia/Image02.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/iran/Image32.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/australia/Image04.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/iran/Image32.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/australia/Image24.jpg"],
+["./data/imagedatabase.cs.washington.edu/groundtruth/cambridge/013.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/cambridge/014.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/cambridge/048.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/australia/Image19.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/cambridge/048.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/cambridge/014.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/australia/Image17.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/cambridge/014.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/cambridge/048.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/australia/Image19.jpg"],
+["./data/imagedatabase.cs.washington.edu/groundtruth/iran/Image13.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/iran/Image23.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/iran/Image40.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/iran/Image05.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/iran/Image11.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/iran/Image23.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/arborgreens/Image08.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/arborgreens/Image08.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/iran/Image23.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/iran/Image05.jpg"]];
 
-html { min-height:100%; margin-bottom:1px; }
-html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
-html body td { vertical-align:top; text-align:left; }
-
-h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
-h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
-h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
-
-a { color:#005fce; text-decoration:none; }
-a:hover { color:#005fce; text-decoration:underline; }
-a:visited { color:#004aa0; text-decoration:none; }
-
-p { padding:0px; margin:0px 0px 20px; }
-img { padding:0px; margin:0px 0px 20px; border:none; }
-p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
-
-ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
-ul li { padding:0px; margin:0px 0px 7px 0px; }
-ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
-ul li ol li { list-style:decimal; }
-ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
-ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
-ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
-ol li ol li { list-style-type:lower-alpha; }
-ol li ul { padding-top:7px; }
-ol li ul li { list-style:square; }
-
-.content { font-size:1.2em; line-height:140%; padding: 20px; }
-
-pre, code { font-size:12px; }
-tt { font-size: 1.2em; }
-pre { margin:0px 0px 20px; }
-pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
-pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
-pre.error { color:red; }
-
-@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
-
-span.keyword { color:#0000FF }
-span.comment { color:#228B22 }
-span.string { color:#A020F0 }
-span.untermstring { color:#B20000 }
-span.syscmd { color:#B28C00 }
-
-.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
-.footer p { margin:0px; }
-.footer a { color:#878787; }
-.footer a:hover { color:#878787; text-decoration:underline; }
-.footer a:visited { color:#878787; }
-
-table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
-table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
-
-.normal-line{
-    font-size: 1.7em;
-}
-
-
-
-  </style></head><body>
-
-<h1 style="padding-left:20px;font-size:3em">Project Report</h1>
-<h1 style="padding-left:20px;font-size:2em">Given an image frame, find the most similar image frame from a database of images, using color image histograms</h1>
-
-<ul class="normal-line">
-    <li>The number of bins for the histogram has been chosen to be 256/16 = 16 for each channel.</li>
-    <li>Thus the total number of bins are 16*16*16 = 4096. </li>
-    <li>The image has been blurred prior to histogram computation using an average filter.</li>
-</ul>
-
-<h2 style="padding-left:20px;font-size:2em">Here we have tested our result on random Images to find best matching 3 images</h2>
-
-</pre><img vspace="5" hspace="5" src="categorize_01.png" alt=""> <img vspace="5" hspace="5" src="categorize_02.png" alt=""> <img vspace="5" hspace="5" src="categorize_03.png" alt=""> <img vspace="5" hspace="5" src="categorize_04.png" alt=""> <img vspace="5" hspace="5" src="categorize_05.png" alt=""> <img vspace="5" hspace="5" src="categorize_06.png" alt=""> <img vspace="5" hspace="5" src="categorize_07.png" alt=""> <img vspace="5" hspace="5" src="categorize_08.png" alt=""> <img vspace="5" hspace="5" src="categorize_09.png" alt=""> <img vspace="5" hspace="5" src="categorize_10.png" alt=""> <img vspace="5" hspace="5" src="categorize_11.png" alt=""> <img vspace="5" hspace="5" src="categorize_12.png" alt=""> <img vspace="5" hspace="5" src="categorize_13.png" alt=""> <img vspace="5" hspace="5" src="categorize_14.png" alt=""> <img vspace="5" hspace="5" src="categorize_15.png" alt=""> <img vspace="5" hspace="5" src="categorize_16.png" alt=""> <img vspace="5" hspace="5" src="categorize_17.png" alt=""> <img vspace="5" hspace="5" src="categorize_18.png" alt=""> <img vspace="5" hspace="5" src="categorize_19.png" alt=""> <img vspace="5" hspace="5" src="categorize_20.png" alt=""> <img vspace="5" hspace="5" src="categorize_21.png" alt=""> <img vspace="5" hspace="5" src="categorize_22.png" alt=""> <img vspace="5" hspace="5" src="categorize_23.png" alt=""> <img vspace="5" hspace="5" src="categorize_24.png" alt=""> <img vspace="5" hspace="5" src="categorize_25.png" alt=""> <img vspace="5" hspace="5" src="categorize_26.png" alt=""> </div>
-
-
-<div><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2014b</a><br></p></div>
-</body></html>
+var table=document.getElementById('table');
+for (var i = 0; i <= strings.length - 1; i++) {
+    html = '<tr>';
+    html+= '<td>'+(i+1)+'</td>';
+    for (var j = 0; j < strings[i].length; j++) {
+        html += '<td><a target=_blank href=".'+strings[i][j]+'"><img src=".'+strings[i][j]+'"></a></td>';
+    };
+    html+='</tr>';
+    table.innerHTML += html;
+};
+</script>
+</body>
+</html>
