@@ -17,7 +17,8 @@ References:
 * The original Paper http://www.cs.cornell.edu/~rdz/papers/pz-wacv96.pdf
 * subplot_tight http://www.mathworks.com/matlabcentral/fileexchange/30884-controllable-tight-subplot/content/subplot_tight/subplot_tight.m
 
-Team Members:
+To see the Project Report - Open html/categorize.html in your browser
 
+Team Members:
 1. 120050042 - [Prateek Chandan](http://www.prateekchandan.in)
 2. 120050043 - [Nishant Kumar Singh](http://www.cse.iitb.ac.in/~nishantsingh)
