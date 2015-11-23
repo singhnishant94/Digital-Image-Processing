@@ -50,9 +50,8 @@ while count < 26
     i = randi(size(gallery, 3));
     while occured(i) == 1
         i = randi(size(gallery, 3));
-        occured(i) = 1;
     end;
-    
+    occured(i) = 1;
     count = count + 1;
     
     mindelta = 100000000;
