@@ -8,7 +8,14 @@
         margin: 1px;
     }
     img{
-        width: 150px;
+        width: 250px;
+    }
+    .gap{
+        height: 10px;
+        margin-top: 50px;
+        margin-bottom: 50px;
+        border: 50px solid #fff;
+        background: #eee;
     }
     </style>
 </head>
@@ -31,15 +38,11 @@
     <li>In cases like 17,18,24 we get some of the very unexpected results</li>
 </ol>
 
-<i>Note : If you can't see the images , means you haven't went through Readme.md. Please Follow the instruction to download images</i>
+<i>Note : If you can't see the images , means you haven't went through Readme.md. Please Follow the instruction to download images from <a href="https://drive.google.com/file/d/0B4lHa9BydZxLa3VpaFRLcGctMFk/view?usp=sharing">here</a> and store in a folder named data</i>
 <table>
     <thead>
     <tr>
         <th>Sl No</th>
-        <th>Original Image</th>
-        <th colspan="3">Best Images from CCV</th>
-        <th colspan="3">Best Images from Color Histogram</th>
-        <th colspan="3">Best Images with CCV and centering</th>
     </tr>
     </thead>
     <tbody id="table">
@@ -50,7 +53,6 @@
 <script type="text/javascript">
     var strings = [["./data/imagedatabase.cs.washington.edu/groundtruth/australia/Image27.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/arborgreens/Image31.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/arborgreens/Image37.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/arborgreens/Image04.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/arborgreens/Image31.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/arborgreens/Image37.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/iran/Image07.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/arborgreens/Image31.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/arborgreens/Image37.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/arborgreens/Image04.jpg"],
 ["./data/imagedatabase.cs.washington.edu/groundtruth/iran/Image32.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/iran/Image41.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/cambridge/050.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/australia/Image24.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/cambridge/050.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/iran/Image14.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/iran/Image41.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/iran/Image41.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/australia/Image24.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/cambridge/050.jpg"],
-["./data/imagedatabase.cs.washington.edu/groundtruth/cambridge/010.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/australia/Image12.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/cambridge/009.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/iran/Image06.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/australia/Image12.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/cambridge/009.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/iran/Image06.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/australia/Image12.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/iran/Image06.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/cambridge/009.jpg"],
 ["./data/imagedatabase.cs.washington.edu/groundtruth/cambridge/010.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/australia/Image12.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/cambridge/009.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/iran/Image06.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/australia/Image12.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/cambridge/009.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/iran/Image06.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/australia/Image12.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/iran/Image06.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/cambridge/009.jpg"],
 ["./data/imagedatabase.cs.washington.edu/groundtruth/iran/Image32.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/iran/Image41.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/cambridge/050.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/australia/Image24.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/cambridge/050.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/iran/Image14.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/iran/Image41.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/iran/Image41.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/australia/Image24.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/cambridge/050.jpg"],
 ["./data/imagedatabase.cs.washington.edu/groundtruth/arborgreens/Image20.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/arborgreens/Image21.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/arborgreens/Image22.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/arborgreens/Image37.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/arborgreens/Image21.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/arborgreens/Image22.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/arborgreens/Image31.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/arborgreens/Image21.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/arborgreens/Image22.jpg","./data/imagedatabase.cs.washington.edu/groundtruth/arborgreens/Image24.jpg"],
@@ -78,11 +80,36 @@
 var table=document.getElementById('table');
 for (var i = 0; i <= strings.length - 1; i++) {
     html = '<tr>';
-    html+= '<td>'+(i+1)+'</td>';
-    for (var j = 0; j < strings[i].length; j++) {
-        html += '<td><a target=_blank href=".'+strings[i][j]+'"><img src=".'+strings[i][j]+'"></a></td>';
-    };
-    html+='</tr>';
+    html+= '<th>'+(i+1)+'</th>';
+    html+= '<td>Original Image</td>';
+    html+= '<td><a target=_blank href=".'+strings[i][0]+'"><img src=".'+strings[i][0]+'"></a></td>';
+    html+="</tr>";
+
+    html += '<tr>';
+    html+= '<td style="border:0px"></td>';
+    html+= '<td>Best Matches from CCV</td>';
+    html+= '<td><a target=_blank href=".'+strings[i][1]+'"><img src=".'+strings[i][1]+'"></a></td>';
+    html+= '<td><a target=_blank href=".'+strings[i][2]+'"><img src=".'+strings[i][2]+'"></a></td>';
+    html+= '<td><a target=_blank href=".'+strings[i][3]+'"><img src=".'+strings[i][3]+'"></a></td>';
+    html+="</tr>";
+
+    html += '<tr>';
+    html+= '<td style="border:0px"></td>';
+    html+= '<td>Best Matches from Color Histogram</td>';
+    html+= '<td><a target=_blank href=".'+strings[i][4]+'"><img src=".'+strings[i][4]+'"></a></td>';
+    html+= '<td><a target=_blank href=".'+strings[i][5]+'"><img src=".'+strings[i][5]+'"></a></td>';
+    html+= '<td><a target=_blank href=".'+strings[i][6]+'"><img src=".'+strings[i][6]+'"></a></td>';
+    html+="</tr>";
+
+    html += '<tr>';
+    html+= '<td style="border:0px"></td>';
+    html+= '<td>Best Matches from Center Refinement</td>';
+    html+= '<td><a target=_blank href=".'+strings[i][7]+'"><img src=".'+strings[i][7]+'"></a></td>';
+    html+= '<td><a target=_blank href=".'+strings[i][8]+'"><img src=".'+strings[i][8]+'"></a></td>';
+    html+= '<td><a target=_blank href=".'+strings[i][9]+'"><img src=".'+strings[i][9]+'"></a></td>';
+    html+="</tr>";
+    
+    html+="<tr><td class='gap' colspan='5'></td></tr>";
     table.innerHTML += html;
 };
 </script>
