@@ -48,7 +48,7 @@ count = 0;
 occured = zeros(size(gallery, 3), 1);
 while count < 26
     i = randi(size(gallery, 3));
-    while occured(i) == 0
+    while occured(i) == 1
         i = randi(size(gallery, 3));
         occured(i) = 1;
     end;
